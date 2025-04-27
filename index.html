@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gladiatus RPG</title>
+    <title>Gladiador RPG</title>
     <link rel="stylesheet" href="gladiatus.css">
 </head>
 <body>
     <!-- Header Superior -->
     <header class="header-superior">
-        <h1>Gladiatus RPG</h1>
+        <h1>Gladiador RPG</h1>
         <nav class="menu-principal">
             <ul>
                 <li><button onclick="mostrarSeccion('vista-general')">👤 Vista General</button></li>
                 <li><button onclick="mostrarSeccion('entrenamiento')">🏋️ Entrenamiento</button></li>
                 <li><button onclick="mostrarSeccion('combate')">⚔️ Combate</button></li>
+                <li><button onclick="mostrarSeccion('misiones')">📜 Misiones</button></li> 
+                <li><button onclick="mostrarSeccion('fabrica')">🏭 Fábrica</button></li>              
+                <li><button onclick="mostrarSeccion('cuenta')">👤 Cuenta</button></li>  
+                <button onclick="logout()" class="logout-btn">Salir</button>  
             </ul>
         </nav>
     </header>
@@ -23,6 +27,8 @@
     <div class="contenido-principal">
         <!-- Vista General -->
         <div id="vista-general" class="seccion activa">
+            <div id="btn-ruleta-container" style="text-align: center; margin: 15px 0;"></div>
+
             <!-- Sección de Estadísticas -->
             <div class="panel estadisticas-panel">
                 <h1>👤 Visión General</h1>
@@ -30,12 +36,14 @@
                     <span class="badge">Oro: <span id="oro-value">50</span></span>
                     <span class="badge">Rubíes: <span id="rubies-value">0</span></span>
                     <span class="badge" id="victorias">Victorias: 0</span>
+                    <!-- Dentro del panel estadisticas-panel, después del badge de victorias -->
+                    <button class="badge" onclick="canjearVictorias()" title="Canjear 10 victorias por 1 rubí">💎 Canjear</button>
                     <span class="badge" id="familia">Familia: Sin clan</span>
                     <br>
                     <br>
                     <div class="curacion-container">
                         <button class="badge" onclick="forzarCuracion()">💚 Curación automática</button>
-                        <div class="curacion-timer" id="curacion-timer">5:00</div>
+                        <div class="curacion-timer" id="curacion-timer">2:00</div>
                     </div>
                 </div>
                 
@@ -107,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Contenedor derecho (inventario + vestuario) -->
             <div class="panel-derecho">
                 <!-- Sección de Vestuario -->
@@ -172,72 +180,95 @@
                 </div>
             </div>
         </div>
-                        
 
+        <div class="panel evento-activo-panel" id="evento-activo-container" style="display: none;width: 80%;margin: 30px auto;">
+            <h2>🎉 Evento Activo</h2>
+            <div id="evento-activo-info"></div>
+            <div class="evento-timer" id="evento-timer"></div>
+        </div>
+        
         <!-- Entrenamiento -->
         <div id="entrenamiento" class="seccion">
             <div class="panel">
                 <h2>🏋️ Área de Entrenamiento</h2>
-                <p>Puntos disponibles: <span id="puntos-entrenamiento">0</span></p>
+                <p>Oro Disponibles: <span id="oro-entrenamiento-value">50</span></p>
                 
                 <!-- Fuerza -->
                 <div class="stat-card">
                     <h3>💪 Fuerza: <span id="fuerza-total">5</span></h3>
                     <div class="stat-details">
-                        <p>Básico: <span id="fuerza-base">5</span> | Máximo: <span id="fuerza-max">9</span></p>
+                        <p>
+                            Básico: <span id="fuerza-base">5</span> | 
+                            Items: <span id="fuerza-item">+0</span>
+                        </p>
                     </div>
                     <p class="stat-desc">Aumenta daño (+1 por punto) y bloqueo de golpes</p>
-                    <button onclick="mejorarStat('fuerza')">+1 (1 Punto)</button>
+                    <button onclick="mejorarStat('fuerza', this)" data-stat="fuerza">+50 oro<small>(1 Punto)</small></button>
                 </div>
                 
                 <!-- Habilidad -->
                 <div class="stat-card">
                     <h3>🎯 Habilidad: <span id="habilidad-total">5</span></h3>
                     <div class="stat-details">
-                        <p>Básico: <span id="habilidad-base">5</span> | Máximo: <span id="habilidad-max">9</span></p>
+                        <p>
+                            Básico: <span id="habilidad-base">5</span> | 
+                            Items: <span id="habilidad-item">+0</span>
+                        </p>
                     </div>
                     <p class="stat-desc">Aumenta precisión (+5% por punto) y golpes críticos</p>
-                    <button onclick="mejorarStat('habilidad')">+1 (1 Punto)</button>
+                    <button onclick="mejorarStat('habilidad', this)" data-stat="habilidad">+50 oro <small>(1 Punto)</small></button>
                 </div>
                 
                 <!-- Agilidad -->
                 <div class="stat-card">
                     <h3>🏃 Agilidad: <span id="agilidad-total">5</span></h3>
                     <div class="stat-details">
-                        <p>Básico: <span id="agilidad-base">5</span> | Máximo: <span id="agilidad-max">9</span></p>
+                        <p>
+                            Básico: <span id="agilidad-base">5</span> | 
+                            Items: <span id="agilidad-item">+0</span>
+                        </p>
                     </div>
                     <p class="stat-desc">Aumenta esquivar (+3% por punto) y chance de huida</p>
-                    <button onclick="mejorarStat('agilidad')">+1 (1 Punto)</button>
+                    <button onclick="mejorarStat('agilidad', this)" data-stat="agilidad">+25 oro <small>(1 Punto)</small></button>
                 </div>
                 
                 <!-- Constitución -->
                 <div class="stat-card">
                     <h3>❤️ Constitución: <span id="constitucion-total">5</span></h3>
                     <div class="stat-details">
-                        <p>Básico: <span id="constitucion-base">5</span> | Máximo: <span id="constitucion-max">9</span></p>
+                        <p>
+                            Básico: <span id="constitucion-base">5</span> | 
+                            Items: <span id="constitucion-item">+0</span>
+                        </p>
                     </div>
                     <p class="stat-desc">Aumenta vida máxima (+5 por punto) y regeneración</p>
-                    <button onclick="mejorarStat('constitucion')">+1 (1 Punto)</button>
+                    <button onclick="mejorarStat('constitucion', this)" data-stat="constitucion">+25 oro <small>(1 Punto)</small></button>
                 </div>
                 
                 <!-- Carisma -->
                 <div class="stat-card">
                     <h3>✨ Carisma: <span id="carisma-total">5</span></h3>
                     <div class="stat-details">
-                        <p>Básico: <span id="carisma-base">5</span> | Máximo: <span id="carisma-max">9</span></p>
+                        <p>
+                            Básico: <span id="carisma-base">5</span> | 
+                            Items: <span id="carisma-item">+0</span>
+                        </p>
                     </div>
                     <p class="stat-desc">Mejora recompensas (+10% por punto) y doble ataque</p>
-                    <button onclick="mejorarStat('carisma')">+1 (1 Punto)</button>
+                    <button onclick="mejorarStat('carisma', this)" data-stat="carisma">+50 oro <small>(1 Punto)</small></button>
                 </div>
                 
                 <!-- Inteligencia -->
                 <div class="stat-card">
                     <h3>🧠 Inteligencia: <span id="inteligencia-total">5</span></h3>
                     <div class="stat-details">
-                        <p>Básico: <span id="inteligencia-base">5</span> | Máximo: <span id="inteligencia-max">9</span></p>
+                        <p>
+                            Básico: <span id="inteligencia-base">5</span> | 
+                            Items: <span id="inteligencia-item">+0</span>
+                        </p>
                     </div>
                     <p class="stat-desc">Aumenta curación (+2 por punto) y aprendizaje</p>
-                    <button onclick="mejorarStat('inteligencia')">+1 (1 Punto)</button>
+                    <button onclick="mejorarStat('inteligencia', this)" data-stat="inteligencia">+50 oro <small>(1 Punto)</small></button>
                 </div>
             </div>
         </div>
@@ -246,20 +277,26 @@
         <div id="combate" class="seccion">
             <div class="panel">
                 <h2>⚔️ Zona de Combate</h2>
-                
+
                 <!-- Sistema de energía de combate -->
                 <div class="combate-energy">
                     <div class="energy-counter">
                         <span id="combate-count">12</span>/12 Combates
                     </div>
+                    <div class="energy-timer" id="combate-timer">Completo</div>
                     <button onclick="comprarCombate()" style="margin-top: 10px;">💎 Comprar combate (1 rubí)</button>
-                    </div>
-                    <div class="energy-timer" id="combate-timer"></div>
                 </div>
-                
+
                 <!-- Menú de ubicaciones -->
                 <div class="ubicaciones-combate">
                     <h3>Ubicaciones de Combate</h3>
+
+                    <div id="temporizador-espera">
+                        <p class="tiempo-restante">Tiempo de espera: <span id="contador-espera">15</span>s</p>
+                        <progress id="barra-espera" value="15" max="15"></progress>
+                        <p id="atacar-ya" class="mensaje-ataque">¡ATACAR YA, GLADIADOR! ⚔️</p>
+                    </div> 
+
                     <p class="nivel-recomendado">Tu nivel: <span id="nivel-jugador">1</span></p>
                     <div class="grid-ubicaciones">
                         <!-- Los botones se generarán dinámicamente aquí -->
@@ -279,8 +316,95 @@
                 </div>
             </div>
         </div>
+        <!-- Misiones -->
+        <div id="misiones" class="seccion">
+            <div class="panel">
+                <h2>📜 Misiones</h2>
+                <div class="filtros-misiones">
+                    <button onclick="filtrarMisiones('todas')" class="activo">Todas</button>
+                    <button onclick="filtrarMisiones('diarias')">Diarias</button>
+                    <button onclick="filtrarMisiones('historia')">Historia</button>
+                </div>
+                <div class="lista-misiones" id="lista-misiones">
+                    <!-- Las misiones se generarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Fábrica -->
+        <div id="fabrica" class="seccion">
+            <div class="panel">
+                <h2>🏭 Fábrica de Artesanía</h2>
+                
+                <!-- Recursos del jugador -->
+                <div class="recursos-fabrica">
+                    <h3>Tus Recursos</h3>
+                    <div class="fila-recurso">
+                        <span>Madera:</span> <span id="madera-count">0</span>
+                        <button onclick="comprarRecurso('madera', 10, 5)">Comprar 10 (5 oro)</button>
+                    </div>
+                    <div class="fila-recurso">
+                        <span>Mineral:</span> <span id="mineral-count">0</span>
+                        <button onclick="comprarRecurso('mineral', 10, 8)">Comprar 10 (8 oro)</button>
+                    </div>
+                    <div class="fila-recurso">
+                        <span>Pieles:</span> <span id="pieles-count">0</span>
+                        <button onclick="comprarRecurso('pieles', 10, 6)">Comprar 10 (6 oro)</button>
+                    </div>
+                    <div class="fila-recurso">
+                        <span>Gemas:</span> <span id="gemas-count">0</span>
+                        <button onclick="comprarRecurso('gemas', 1, 15)">Comprar 1 (15 oro)</button>
+                    </div>
+                </div>
+                
+                <!-- Cola de producción -->
+                <div class="cola-produccion">
+                    <h3>Cola de Producción</h3>
+                    <div id="cola-produccion-list">
+                        <!-- Los items en producción aparecerán aquí -->
+                        <p>No hay items en producción actualmente</p>
+                    </div>
+                </div>
+                
+                <!-- Recetas disponibles -->
+                <div class="recetas-fabrica">
+                    <h3>Recetas Disponibles</h3>
+                    <div class="filtros-recetas">
+                        <button onclick="filtrarRecetas('todas')" class="activo">Todas</button>
+                        <button onclick="filtrarRecetas('armas')">Armas</button>
+                        <button onclick="filtrarRecetas('armaduras')">Armaduras</button>
+                        <button onclick="filtrarRecetas('accesorios')">Accesorios</button>
+                        <button onclick="filtrarRecetas('pociones')">Pociones</button>
+                    </div>
+                    
+                    <div class="lista-recetas" id="lista-recetas">
+                        <!-- Las recetas se generarán dinámicamente aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cuenta -->
+        <div id="cuenta" class="seccion">
+            <div class="panel">
+                <h2>👤 Gestión de Cuenta</h2>
+                <p>Por favor, inicia sesión o regístrate para guardar tu progreso.</p>
+                <button onclick="window.location.href='cuenta.html'">Ir a Inicio de Sesión/Registro</button>
+            </div>
+        </div>
     </div>
 
+    <!-- Pie de página -->
+    <footer class="footer">
+        <ul class="footer-list">
+            <li>© 2025 Copyright</li>
+            <li>Creado por Joseloo & David</li>
+            <li>Derechos reservados</li>
+        </ul>
+    </footer>
+
     <script src="gladiatus.js"></script>
+    <script src="cuenta.js"></script>
+    <script src="recetas.js"></script>
 </body>
 </html>

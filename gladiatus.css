@@ -1,4 +1,9 @@
 /* Estilos Generales */
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     font-family: 'Arial', sans-serif;
     background: #1a1a1a;
@@ -8,6 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
 }
 
 /* Header Superior */
@@ -19,6 +25,7 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    max-width: 100%;
 }
 
 .header-superior h1 {
@@ -676,4 +683,479 @@ button:hover {
 .badge[data-type="ruby"] {
     background: #e91e63;
     color: white;
+}
+
+/* Estilos para la sección de Misiones */
+#misiones.activa {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 20px;
+    height: 100%; /* Asegura que ocupe todo el espacio disponible */
+}
+
+#misiones .panel {
+    background: #2c3e50;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%; /* Cambiado de 100vh a 100% */
+    display: flex;
+    flex-direction: column;
+}
+
+#misiones h2 {
+    color: #f1c40f;
+    font-size: 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Contenedor de filtros */
+.filtros-misiones {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    justify-content: center;
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+.filtros-misiones button {
+    background: #34495e;
+    border: 1px solid #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.filtros-misiones button:hover {
+    background: #3d566e;
+}
+
+.filtros-misiones button.activo {
+    background: #e74c3c;
+    font-weight: bold;
+}
+
+/* Lista de misiones con scroll */
+.lista-misiones {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    max-height: calc(100vh - 200px); /* Ajusta según necesidad */
+}
+
+/* Personaliza el scrollbar */
+.lista-misiones::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lista-misiones::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.lista-misiones::-webkit-scrollbar-thumb {
+    background: #e74c3c;
+    border-radius: 4px;
+}
+
+.lista-misiones::-webkit-scrollbar-thumb:hover {
+    background: #c0392b;
+}
+
+/* Cartas de misiones */
+.mision-card {
+    background: #34495e;
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #f1c40f;
+    transition: all 0.3s;
+}
+
+.mision-card.completada {
+    border-left-color: #27ae60;
+    opacity: 0.8;
+}
+
+.mision-card h3 {
+    color: #f1c40f;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.mision-progreso {
+    height: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.mision-progreso div {
+    height: 100%;
+    background: #3498db;
+    transition: width 0.5s;
+}
+
+.mision-recompensa {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.mision-recompensa span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-reclamar {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.btn-reclamar:hover {
+    background-color: #45a049;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filtros-misiones {
+        flex-direction: column;
+    }
+    
+    .filtros-misiones button {
+        width: 100%;
+    }
+}
+
+.completada-flash {
+    animation: flash 0.5s 3;
+}
+
+@keyframes flash {
+    0% { background: rgba(46, 204, 113, 0.1); }
+    50% { background: rgba(46, 204, 113, 0.4); }
+    100% { background: rgba(46, 204, 113, 0.1); }
+}
+
+/* Estilos para la ruleta */
+#ruleta-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2c3e50;
+    padding: 20px;
+    border-radius: 10px;
+    border: 3px solid #f1c40f;
+    z-index: 1001;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.resultado-ruleta {
+    color: white;
+}
+
+.resultado-ruleta h3 {
+    color: #f1c40f;
+    margin-top: 0;
+}
+
+.resultado-ruleta button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.resultado-ruleta button:hover {
+    background: #c0392b;
+}
+
+.evento-activo-panel {
+    background: #8e44ad;
+    border: 2px solid #f1c40f;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    animation: pulse 2s infinite;
+}
+
+.evento-timer {
+    font-family: monospace;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.beneficios-evento {
+    margin-top: 10px;
+}
+
+.beneficios-evento p {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-ruleta {
+    background: #9b59b6 !important;
+    color: white !important;
+    padding: 12px 24px !important;
+    font-size: 18px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    animation: pulse 1.5s infinite !important;
+    margin: 10px auto !important;
+    display: block !important;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(155, 89, 182, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(155, 89, 182, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(155, 89, 182, 0); }
+}
+
+/* Estilos para la sección de cuenta */
+#cuenta.activa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+#cuenta .panel {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+#cuenta button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+/* Estilos para la fábrica */
+.recursos-fabrica {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.fila-recurso {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #444;
+}
+
+.fila-recurso:last-child {
+    border-bottom: none;
+}
+
+.fila-recurso button {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.cola-produccion {
+    background: #2c3e50;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.item-produccion {
+    margin: 10px 0;
+    padding: 10px;
+    background: #34495e;
+    border-radius: 5px;
+}
+
+.item-completado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.temporizador-produccion {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.lista-recetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.receta-card {
+    background: #34495e;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #f1c40f;
+}
+
+.receta-card h4 {
+    margin-top: 0;
+    color: #f1c40f;
+}
+
+.receta-recursos {
+    margin: 10px 0;
+}
+
+.receta-recursos p {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.receta-recursos .suficiente {
+    color: #2ecc71;
+}
+
+.receta-recursos .insuficiente {
+    color: #e74c3c;
+}
+
+.receta-tiempo {
+    font-style: italic;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+/* Estilos para el pie de página FIJO */
+.footer {
+    background: #2c3e50;
+    padding: 15px 20px;
+    border-top: 2px solid #e74c3c;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.footer-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
+.footer-list li {
+    color: #bdc3c7;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+/* Añade margen al contenido principal para que no quede detrás del footer */
+.contenido-principal {
+    margin-bottom: 70px; /* Ajusta según la altura de tu footer */
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .footer-list {
+        gap: 10px;
+        flex-direction: row; /* Mantenemos horizontal incluso en móviles */
+        justify-content: space-around;
+    }
+    
+    .footer-list li {
+        font-size: 12px;
+    }
+    
+    .contenido-principal {
+        margin-bottom: 60px;
+    }
+}
+
+/* Estilo para el temporizador */
+#temporizador-espera {
+    margin: auto;
+    width: 20%;
+    text-align: center;
+    padding: 5px;
+}
+
+#temporizador-espera p {
+    margin: 5px 0;
+}
+
+#barra-espera {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Estado inicial - mensaje de ataque oculto */
+#atacar-ya {
+    display: none;
+    color: #ff0000;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: parpadeo 0.5s infinite alternate;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+    margin-top: 5px;
+}
+
+/* Animación de parpadeo */
+@keyframes parpadeo {
+    from { opacity: 1; }
+    to { opacity: 0.7; }
+}
+
+/* Cuando el temporizador está activo */
+.tiempo-restante, #barra-espera {
+    display: block;
+}
+
+/* Cuando el temporizador termina */
+.temporizador-finalizado .tiempo-restante,
+.temporizador-finalizado #barra-espera {
+    display: none;
+}
+
+.temporizador-finalizado #atacar-ya {
+    display: block;
 }
