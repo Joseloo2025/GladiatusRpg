@@ -26,7 +26,8 @@
                 <li><button onclick="mostrarSeccion('combate')">⚔️ Combate</button></li>
                 <li><button onclick="mostrarSeccion('misiones')">📜 Misiones</button></li> 
                 <li><button onclick="mostrarSeccion('fabrica')">🏭 Fábrica</button></li> 
-                <li><button onclick="mostrarSeccion('arena')">🏟️ Arena PvP</button></li>             
+                <li><button onclick="mostrarSeccion('arena')">🏟️ Arena PvP</button></li> 
+                <li><button onclick="mostrarSeccion('tienda')">🏪 Tienda</button></li>            
                 <li><button onclick="mostrarSeccion('cuenta')">👤 Cuenta</button></li>  
                 <button onclick="logout()" class="logout-btn">Salir</button>  
             </ul>
@@ -454,13 +455,24 @@
             </div>
         </div>
 
-        <!-- Cuenta -->
-        <div id="cuenta" class="seccion">
-            <div class="panel">
-                <h2>👤 Gestión de Cuenta</h2>
-                <p>Por favor, inicia sesión o regístrate para guardar tu progreso.</p>
-                <button onclick="window.location.href='cuenta.html'">Ir a Inicio de Sesión/Registro</button>
-            </div>
+    <!-- Sección Tienda -->
+    <div id="tienda" class="seccion">
+        <div class="panel">
+          <h2>🏪 Tienda <span id="tienda-temporizador"></span></h2>
+          <!-- <button onclick="generarItemsTienda()" class="btn-refresco">🔄 Refrescar (💎5)</button> -->
+          <button onclick="refrescarTienda()" class="btn-refresco">🔄 Refrescar (💎5)</button>
+        
+          <!-- Grid de items disponibles -->
+          <h3>Items Disponibles</h3>
+          <div class="grid-tienda" id="tienda-items">
+            <!-- Items generados por JS aquí -->
+          </div>
+
+          <!-- Grid de inventario para vender -->
+          <h3>Tu Inventario</h3>
+          <div class="grid-inventario-tienda" id="inventario-tienda">
+            <!-- Items del jugador generados por JS -->
+          </div>
         </div>
     </div>
 
@@ -473,9 +485,16 @@
         </ul>
     </footer>
 
-    <script src="gladiatus.js"></script>
+    <!-- <script src="gladiatus.js"></script>
     <script src="cuenta.js"></script>
     <script src="recetas.js"></script>
     <script src="arena.js"></script>
+    <script src="tienda.js"></script> -->
+
+    <script src="cuenta.js"></script> <!-- Primero inicialización del jugador -->
+    <script src="gladiatus.js"></script> <!-- Funciones base del juego -->
+    <script src="tienda.js"></script> <!-- Sistema económico (puede ser usado por otros) -->
+    <script src="recetas.js"></script> <!-- Depende de items/sistema económico -->
+    <script src="arena.js"></script> <!-- Suele depender de muchos otros sistemas -->
 </body>
 </html>
